@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 //@RestController controller classlarının üzerine yazılır. Controller olduğunu belirtir.
 @RestController
+@RequestMapping("/api/v1/tests")
 public class TestController {
     @RequestMapping(method = RequestMethod.GET, path = "/hello")
     public void sayHello() {
@@ -18,6 +19,12 @@ public class TestController {
         String helloWorld = "Hello world!";
         System.out.println("Terminale yazdırıyoruz burada : " + "Hello World!");
         return helloWorld;
+    }
+
+    //post işlemini postman gibi araçlardan çağırabiliriz.
+    @PostMapping
+    public void save() {
+        System.out.println("saved!");
     }
 
     //burada String person'u kendimiz verebilmek için path variable dan yardım aldık ve getMapping'in içine
