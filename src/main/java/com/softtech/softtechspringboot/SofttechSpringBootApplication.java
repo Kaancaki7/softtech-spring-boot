@@ -12,9 +12,16 @@ public class SofttechSpringBootApplication {
 
 		ConfigurableApplicationContext applicationContext = SpringApplication.run(SofttechSpringBootApplication.class, args);
 
-		WebService webService = applicationContext.getBean(WebService.class);
+		WebService webService1 = applicationContext.getBean(WebService.class);
+		WebService webService2 = applicationContext.getBean(WebService.class);
 
-		webService.convertResponse();
+		//WebService prototype yaparsak @Scope ile webService1 ve webService2 olarak 2 tane farklı nesne oluşur
+		//bu yüzden alttaki eşitlik false olur ama default olarak bırakırsak true olur.
+		System.out.println(webService1 == webService2);
+		//fakat singleton sayesinde bağlandığı nesne birtane olacak o yüzden aynı nesneyi verecek alttaki eşitlik true olur
+		System.out.println(webService1.getResponseConverter() == webService2.getResponseConverter());
+
+		//webService.convertResponse();
 
 	}
 
