@@ -1,0 +1,20 @@
+- REST-METHODS :
+
+
+	- GET : Sadece data alındığı durumlarda kullanılır.
+
+	- POST : İstek yapılan yere bir data göndermek için kullanılır.
+
+	- HEAD : Get gibidir ama buradan payload dönmez. Yani bir data var mı, yok mu bunu kontrol etmek için kullanılabilir.
+
+	- PUT : İstek yapılan yerdeki bir veriyi güncellemek için kullanılır.
+
+	- DELETE : Bir data silmek için kullanılır.
+
+	- CONNECT : İstek yapılacak yere bir tünel oluşturmak için kullanılır.
+
+	- OPTIONS : İletişim ayarlarını tanımlar.
+
+	- TRACE : Yapılan istek, istek yapılan yere ulaşana kadar hangi değişikliklere uğradı bunu belirtir.
+
+	- PATCH : Put gibidir, fakat Put'ta tüm kaynağı göndermeniz gerekirken, patch ile sadece kaynakta değiştirmek istediğiniz kısmı göndererek güncelleme işlemi yapabilirsiniz.

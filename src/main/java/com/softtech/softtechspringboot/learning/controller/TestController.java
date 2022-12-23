@@ -1,4 +1,4 @@
-package com.softtech.softtechspringboot.controller;
+package com.softtech.softtechspringboot.learning.controller;
 
 import org.springframework.web.bind.annotation.*;
 

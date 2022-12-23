@@ -1,6 +1,6 @@
-package com.softtech.softtechspringboot.repository;
+package com.softtech.softtechspringboot.learning.repository;
 
-import com.softtech.softtechspringboot.entity.User;
+import com.softtech.softtechspringboot.learning.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

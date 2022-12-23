@@ -1,7 +1,6 @@
-package com.softtech.softtechspringboot.dependencyexamples;
+package com.softtech.softtechspringboot.learning.dependencyexamples;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 

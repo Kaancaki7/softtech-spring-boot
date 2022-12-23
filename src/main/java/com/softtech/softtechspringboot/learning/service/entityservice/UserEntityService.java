@@ -1,7 +1,7 @@
-package com.softtech.softtechspringboot.service.entityservice;
+package com.softtech.softtechspringboot.learning.service.entityservice;
 
-import com.softtech.softtechspringboot.entity.User;
-import com.softtech.softtechspringboot.repository.UserDao;
+import com.softtech.softtechspringboot.learning.entity.User;
+import com.softtech.softtechspringboot.learning.repository.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

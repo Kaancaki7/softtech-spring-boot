@@ -1,6 +1,5 @@
-package com.softtech.softtechspringboot.dependencyexamples;
+package com.softtech.softtechspringboot.learning.dependencyexamples;
 
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 @Component

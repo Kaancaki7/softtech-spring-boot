@@ -1,7 +1,9 @@
-package com.softtech.softtechspringboot.entity;
+package com.softtech.softtechspringboot.learning.entity;
 
-import jakarta.persistence.*;
+
 import lombok.Data;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "KULLANICI")

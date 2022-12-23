@@ -1,4 +1,4 @@
-package com.softtech.softtechspringboot.dto;
+package com.softtech.softtechspringboot.learning.dto;
 
 //Lombok'tan bahsedilecek.
 //Lombok ne işe yarar ; constructor ve getter setter metodları ile uğraşma diyor normalde oluştuyorduk hepsini. Ama
