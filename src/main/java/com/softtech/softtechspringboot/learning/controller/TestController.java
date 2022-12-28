@@ -4,8 +4,8 @@ import org.springframework.web.bind.annotation.*;
 
 
 //@RestController controller classlarının üzerine yazılır. Controller olduğunu belirtir.
-@RestController
-@RequestMapping("/api/v1/tests")
+//@RestController
+//@RequestMapping("/api/v1/tests")
 public class TestController {
     @RequestMapping(method = RequestMethod.GET, path = "/hello")
     public void sayHello() {
