@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -39,4 +40,21 @@ public class CusCustomerService {
 
         return cusCustomerDto;
     }
+
+    public void delete(Long id) {
+
+        CusCustomer cusCustomer = cusCustomerEntityService.getByIdWithControl(id);
+
+        cusCustomerEntityService.delete(cusCustomer);
+    }
+
+    public CusCustomerDto findById(Long id) {
+
+        CusCustomer cusCustomer = cusCustomerEntityService.getByIdWithControl(id);
+
+        CusCustomerDto cusCustomerDto = CusCustomerMapper.INSTANCE.convertToCusCustomerDto(cusCustomer);
+
+        return cusCustomerDto;
+    }
+
 }

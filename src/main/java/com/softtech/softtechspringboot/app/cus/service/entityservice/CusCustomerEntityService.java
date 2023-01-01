@@ -29,4 +29,18 @@ public class CusCustomerEntityService {
     public void delete(CusCustomer cusCustomer){
         cusCustomerDao.delete(cusCustomer);
     }
+
+    public CusCustomer getByIdWithControl(Long id) {
+        Optional<CusCustomer> customerOptional = findById(id);
+
+        CusCustomer cusCustomer;
+        if (customerOptional.isPresent()){
+            cusCustomer = customerOptional.get();
+        }
+        else {
+            throw new RuntimeException("Customer not found!");
+        }
+
+        return cusCustomer;
+    }
 }
