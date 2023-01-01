@@ -62,21 +62,23 @@ public class CusCustomerService {
 
     public CusCustomerDto update(CusCustomerUpdateRequestDto cusCustomerUpdateRequestDto) {
 
-        Long id = cusCustomerUpdateRequestDto.getId();
-        boolean isExist = cusCustomerEntityService.existById(id);
+        controlIsCustomerExist(cusCustomerUpdateRequestDto);
 
         CusCustomer cusCustomer;
-        if (isExist){
-            cusCustomer = CusCustomerMapper.INSTANCE.convertToCusCustomer(cusCustomerUpdateRequestDto);
+        cusCustomer = CusCustomerMapper.INSTANCE.convertToCusCustomer(cusCustomerUpdateRequestDto);
+        cusCustomerEntityService.save(cusCustomer);
 
-            cusCustomerEntityService.save(cusCustomer);
-        }else {
-            throw new ItemNotFoundException(CustomerErrorMessage.CUSTOMER_ERROR_MESSAGE);
-        }
 
         CusCustomerDto cusCustomerDto = CusCustomerMapper.INSTANCE.convertToCusCustomerDto(cusCustomer);
         return cusCustomerDto;
+    }
 
+    private void controlIsCustomerExist(CusCustomerUpdateRequestDto cusCustomerUpdateRequestDto) {
 
+        Long id = cusCustomerUpdateRequestDto.getId();
+        boolean isExist = cusCustomerEntityService.existById(id);
+        if (!isExist){
+            throw new ItemNotFoundException(CustomerErrorMessage.CUSTOMER_ERROR_MESSAGE);
+        }
     }
 }
