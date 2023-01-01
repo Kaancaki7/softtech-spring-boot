@@ -1,5 +1,6 @@
 package com.softtech.softtechspringboot.app.gen.exception;
 
+import com.softtech.softtechspringboot.app.gen.exceptions.ItemNotFoundException;
 import com.softtech.softtechspringboot.learning.exception.UserNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -32,7 +33,7 @@ public class GenCustomizedResponseEntityExceptionHandler extends ResponseEntityE
     }
 
     @ExceptionHandler
-    public final ResponseEntity<Object> handleAllUserNotFoundException(UserNotFoundException ex, WebRequest webRequest){
+    public final ResponseEntity<Object> handleAllItemNotFoundException(ItemNotFoundException ex, WebRequest webRequest){
 
         Date errorDate = new Date();
         String message = ex.getMessage();
@@ -56,4 +57,6 @@ public class GenCustomizedResponseEntityExceptionHandler extends ResponseEntityE
 
         return new ResponseEntity<>(genExceptionResponse, HttpStatus.BAD_REQUEST);
     }
+
+
 }
