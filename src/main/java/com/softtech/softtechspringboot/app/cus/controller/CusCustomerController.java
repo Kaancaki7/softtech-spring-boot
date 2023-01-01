@@ -2,6 +2,7 @@ package com.softtech.softtechspringboot.app.cus.controller;
 
 import com.softtech.softtechspringboot.app.cus.dto.CusCustomerDto;
 import com.softtech.softtechspringboot.app.cus.dto.CusCustomerSaveRequestDto;
+import com.softtech.softtechspringboot.app.cus.dto.CusCustomerUpdateRequestDto;
 import com.softtech.softtechspringboot.app.cus.service.CusCustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -46,5 +47,13 @@ public class CusCustomerController {
         cusCustomerService.delete(id);
 
         return ResponseEntity.ok(Void.TYPE);
+    }
+
+    @PutMapping
+    public ResponseEntity update(@RequestBody CusCustomerUpdateRequestDto cusCustomerUpdateRequestDto){
+
+        CusCustomerDto cusCustomerDto = cusCustomerService.update(cusCustomerUpdateRequestDto);
+
+        return ResponseEntity.ok(cusCustomerDto);
     }
 }

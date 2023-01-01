@@ -4,8 +4,11 @@ import com.softtech.softtechspringboot.app.cus.converter.CusCustomerConverter;
 import com.softtech.softtechspringboot.app.cus.converter.CusCustomerMapper;
 import com.softtech.softtechspringboot.app.cus.dto.CusCustomerDto;
 import com.softtech.softtechspringboot.app.cus.dto.CusCustomerSaveRequestDto;
+import com.softtech.softtechspringboot.app.cus.dto.CusCustomerUpdateRequestDto;
 import com.softtech.softtechspringboot.app.cus.entity.CusCustomer;
+import com.softtech.softtechspringboot.app.cus.enums.CustomerErrorMessage;
 import com.softtech.softtechspringboot.app.cus.service.entityservice.CusCustomerEntityService;
+import com.softtech.softtechspringboot.app.gen.exceptions.ItemNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -57,4 +60,23 @@ public class CusCustomerService {
         return cusCustomerDto;
     }
 
+    public CusCustomerDto update(CusCustomerUpdateRequestDto cusCustomerUpdateRequestDto) {
+
+        Long id = cusCustomerUpdateRequestDto.getId();
+        boolean isExist = cusCustomerEntityService.existById(id);
+
+        CusCustomer cusCustomer;
+        if (isExist){
+            cusCustomer = CusCustomerMapper.INSTANCE.convertToCusCustomer(cusCustomerUpdateRequestDto);
+
+            cusCustomerEntityService.save(cusCustomer);
+        }else {
+            throw new ItemNotFoundException(CustomerErrorMessage.CUSTOMER_ERROR_MESSAGE);
+        }
+
+        CusCustomerDto cusCustomerDto = CusCustomerMapper.INSTANCE.convertToCusCustomerDto(cusCustomer);
+        return cusCustomerDto;
+
+
+    }
 }
