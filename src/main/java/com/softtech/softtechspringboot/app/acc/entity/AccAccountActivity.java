@@ -17,10 +17,16 @@ public class AccAccountActivity {
     @GeneratedValue(generator = "AccAccountActivity")
     @SequenceGenerator(name = "AccAccountActivity", sequenceName = "ACC_ACCOUNT_ACTIVITY_ID_SEQ")
     private Long id;
-
+    @Column(name = "ID_ACC_ACCOUNT")
     private Long AccAccountId;
+    @Column(name = "AMOUNT",precision = 19,scale = 2)
     private BigDecimal amount;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "TRANSACTION_DATE")
     private Date transactionDate;
+    @Column(name = "CURRENT_BALANCE",precision = 19,scale = 2)
     private BigDecimal currentBalance;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "ACCOUNT_ACTIVITY_TYPE",length = 30)
     private AccAccountActivityType accountActivityType;
 }
