@@ -1,22 +1,19 @@
-package com.softtech.softtechspringboot.app.cus.service.entityservice;
+package com.softtech.softtechspringboot.app.acc.service.entityservice;
 
-import com.softtech.softtechspringboot.app.cus.dao.CusCustomerDao;
-import com.softtech.softtechspringboot.app.cus.entity.CusCustomer;
+import com.softtech.softtechspringboot.app.acc.dao.AccAccountDao;
+import com.softtech.softtechspringboot.app.acc.entity.AccAccount;
 import com.softtech.softtechspringboot.app.cus.enums.CustomerErrorMessage;
 import com.softtech.softtechspringboot.app.gen.exceptions.ItemNotFoundException;
 import com.softtech.softtechspringboot.app.gen.service.BaseEntityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CusCustomerEntityService extends BaseEntityService<CusCustomer,CusCustomerDao> {
+public class AccAccountEntityService extends BaseEntityService<AccAccount, AccAccountDao> {
 
-
-
-    public CusCustomerEntityService(CusCustomerDao dao) {
+    public AccAccountEntityService(AccAccountDao dao) {
         super(dao);
     }
 }
