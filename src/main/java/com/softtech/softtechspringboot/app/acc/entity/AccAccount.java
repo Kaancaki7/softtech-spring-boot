@@ -2,6 +2,7 @@ package com.softtech.softtechspringboot.app.acc.entity;
 
 import com.softtech.softtechspringboot.app.acc.enums.AccAccountType;
 import com.softtech.softtechspringboot.app.acc.enums.AccCurrencyType;
+import com.softtech.softtechspringboot.app.gen.enums.GenStatusType;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,5 +31,8 @@ public class AccAccount {
     @Enumerated(EnumType.STRING)
     @Column(name = "ACCOUNT_TYPE", length = 30)
     private AccAccountType accountType;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "STATUS_TYPE",length = 30)
+    private GenStatusType statusType;
 
 }

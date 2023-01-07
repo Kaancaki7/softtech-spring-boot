@@ -2,6 +2,7 @@ package com.softtech.softtechspringboot.app.acc.dto;
 
 import com.softtech.softtechspringboot.app.acc.enums.AccAccountType;
 import com.softtech.softtechspringboot.app.acc.enums.AccCurrencyType;
+import com.softtech.softtechspringboot.app.gen.enums.GenStatusType;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -15,5 +16,6 @@ public class AccAccountDto {
     private BigDecimal currentBalance;
     private AccCurrencyType currencyType;
     private AccAccountType accountType;
+    private GenStatusType genStatusType;
 
 }
