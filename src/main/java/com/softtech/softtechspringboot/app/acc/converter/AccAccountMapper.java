@@ -2,7 +2,10 @@ package com.softtech.softtechspringboot.app.acc.converter;
 
 import com.softtech.softtechspringboot.app.acc.dto.AccAccountDto;
 import com.softtech.softtechspringboot.app.acc.dto.AccAccountSaveRequestDto;
+import com.softtech.softtechspringboot.app.acc.dto.AccMoneyTransferDto;
+import com.softtech.softtechspringboot.app.acc.dto.AccMoneyTransferSaveRequestDto;
 import com.softtech.softtechspringboot.app.acc.entity.AccAccount;
+import com.softtech.softtechspringboot.app.acc.entity.AccMoneyTransfer;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
@@ -18,5 +21,10 @@ public interface AccAccountMapper {
     List<AccAccountDto> convertToAccountDtoList(List<AccAccount> accAccountList);
 
     AccAccount convertToAccAccount(AccAccountSaveRequestDto accAccountDto);
+
+    AccMoneyTransfer convertToAccMoneyTransfer(AccMoneyTransferSaveRequestDto accMoneyTransferSaveRequestDto);
+
+    AccMoneyTransferDto convertToAccMoneyTransferDto(AccMoneyTransfer accMoneyTransfer);
+
 
 }
