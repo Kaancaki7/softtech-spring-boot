@@ -1,5 +1,6 @@
 package com.softtech.softtechspringboot.app.acc.service;
 
+import com.softtech.softtechspringboot.app.acc.converter.AccAccountMapper;
 import com.softtech.softtechspringboot.app.acc.dto.AccAccountActivityDto;
 import com.softtech.softtechspringboot.app.acc.dto.AccMoneyWithdrawRequestDto;
 import com.softtech.softtechspringboot.app.acc.entity.AccAccount;
@@ -22,31 +23,16 @@ public class AccAccountActivityService {
 
 
     public AccAccountActivityDto withdraw(AccMoneyWithdrawRequestDto accMoneyWithdrawRequestDto) {
-        return null;
-    }
 
-    private AccAccountActivity createAccAccountActivity(Long accountId, BigDecimal amount, BigDecimal newBalance, AccAccountActivityType accAccountActivityType) {
-        AccAccountActivity accAccountActivity = new AccAccountActivity();
-        accAccountActivity.setAccountActivityType(accAccountActivityType);
-        accAccountActivity.setAccAccountId(accountId);
-        accAccountActivity.setAmount(amount);
-        accAccountActivity.setTransactionDate(new Date());
-        accAccountActivity.setCurrentBalance(newBalance);
-        accAccountActivity = accAccountActivityEntityService.save(accAccountActivity);
-        return accAccountActivity;
-    }
+        Long accAccountId = accMoneyWithdrawRequestDto.getAccAccountId();
+        BigDecimal amount = accMoneyWithdrawRequestDto.getAmount();
 
-    private static void validateBalance(BigDecimal newBalance) {
-        if(newBalance.compareTo(BigDecimal.ZERO) < 0){
-            throw new RuntimeException("Insufficient balance!");
-        }
-    }
+        AccAccountActivity accAccountActivity = moneyOut(accAccountId, amount);
 
-    private void updateCurrentBalance(AccAccount accAccount, BigDecimal newBalance) {
-        accAccount.setCurrentBalance(newBalance);
-        accAccount = accAccountEntityService.save(accAccount);
-    }
+        AccAccountActivityDto accAccountActivityDto = AccAccountMapper.INSTANCE.convertToAccAccountActivityDto(accAccountActivity);
 
+        return accAccountActivityDto;
+    }
 
     public AccAccountActivity moneyOut(Long accountId, BigDecimal amount) {
 
@@ -76,4 +62,29 @@ public class AccAccountActivityService {
 
         return accAccountActivity;
     }
+
+    private AccAccountActivity createAccAccountActivity(Long accountId, BigDecimal amount, BigDecimal newBalance, AccAccountActivityType accAccountActivityType) {
+        AccAccountActivity accAccountActivity = new AccAccountActivity();
+        accAccountActivity.setAccountActivityType(accAccountActivityType);
+        accAccountActivity.setAccAccountId(accountId);
+        accAccountActivity.setAmount(amount);
+        accAccountActivity.setTransactionDate(new Date());
+        accAccountActivity.setCurrentBalance(newBalance);
+        accAccountActivity = accAccountActivityEntityService.save(accAccountActivity);
+        return accAccountActivity;
+    }
+
+    private static void validateBalance(BigDecimal newBalance) {
+        if(newBalance.compareTo(BigDecimal.ZERO) < 0){
+            throw new RuntimeException("Insufficient balance!");
+        }
+    }
+
+    private void updateCurrentBalance(AccAccount accAccount, BigDecimal newBalance) {
+        accAccount.setCurrentBalance(newBalance);
+        accAccount = accAccountEntityService.save(accAccount);
+    }
+
+
+
 }
