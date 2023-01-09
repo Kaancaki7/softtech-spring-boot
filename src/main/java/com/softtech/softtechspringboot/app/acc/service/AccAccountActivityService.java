@@ -42,7 +42,7 @@ public class AccAccountActivityService {
 
         validateBalance(newBalance);
 
-        AccAccountActivity accAccountActivity = createAccAccountActivity(accountId, amount, newBalance, AccAccountActivityType.SEND;);
+        AccAccountActivity accAccountActivity = createAccAccountActivity(accountId, amount, newBalance, AccAccountActivityType.SEND);
 
         updateCurrentBalance(accAccount, newBalance);
 
@@ -84,7 +84,5 @@ public class AccAccountActivityService {
         accAccount.setCurrentBalance(newBalance);
         accAccount = accAccountEntityService.save(accAccount);
     }
-
-
 
 }
