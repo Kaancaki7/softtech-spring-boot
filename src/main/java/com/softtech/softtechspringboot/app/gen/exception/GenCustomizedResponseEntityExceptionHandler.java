@@ -1,5 +1,6 @@
 package com.softtech.softtechspringboot.app.gen.exception;
 
+import com.softtech.softtechspringboot.app.gen.exceptions.GenBusinessException;
 import com.softtech.softtechspringboot.app.gen.exceptions.ItemNotFoundException;
 import com.softtech.softtechspringboot.learning.exception.UserNotFoundException;
 import org.springframework.http.HttpHeaders;
@@ -37,6 +38,19 @@ public class GenCustomizedResponseEntityExceptionHandler extends ResponseEntityE
 
         Date errorDate = new Date();
         String message = ex.getMessage();
+        String description = webRequest.getDescription(false);
+
+        GenExceptionResponse genExceptionResponse = new GenExceptionResponse(errorDate, message, description);
+
+
+        return new ResponseEntity<>(genExceptionResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler
+    public final ResponseEntity<Object> handleAllGenBusinessException(GenBusinessException ex, WebRequest webRequest){
+
+        Date errorDate = new Date();
+        String message = ex.getBaseErrorMessage().getMessage();
         String description = webRequest.getDescription(false);
 
         GenExceptionResponse genExceptionResponse = new GenExceptionResponse(errorDate, message, description);
