@@ -2,6 +2,7 @@ package com.softtech.softtechspringboot.app.gen.service;
 
 import com.softtech.softtechspringboot.app.acc.entity.AccAccount;
 import com.softtech.softtechspringboot.app.cus.enums.CustomerErrorMessage;
+import com.softtech.softtechspringboot.app.gen.entity.BaseEntity;
 import com.softtech.softtechspringboot.app.gen.enums.GenErrorMessage;
 import com.softtech.softtechspringboot.app.gen.exceptions.ItemNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public abstract class BaseEntityService<E,D extends JpaRepository> {
+public abstract class BaseEntityService<E extends BaseEntity,D extends JpaRepository> {
 
     private final D dao;
 

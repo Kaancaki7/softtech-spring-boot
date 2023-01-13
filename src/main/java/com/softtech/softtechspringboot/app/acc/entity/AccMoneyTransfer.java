@@ -1,6 +1,7 @@
 package com.softtech.softtechspringboot.app.acc.entity;
 
 import com.softtech.softtechspringboot.app.acc.enums.AccMoneyTransferType;
+import com.softtech.softtechspringboot.app.gen.entity.BaseEntity;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +14,7 @@ import java.util.Date;
 @Table(name = "ACC_MONEY_TRANSFER")
 @Getter
 @Setter
-public class AccMoneyTransfer {
+public class AccMoneyTransfer extends BaseEntity {
     @Id
     @SequenceGenerator(name = "AccMoneyTransfer",sequenceName = "ACC_MONEY_TRANSFER_ID_SEQ")
     @GeneratedValue(generator = "AccMoneyTransfer")

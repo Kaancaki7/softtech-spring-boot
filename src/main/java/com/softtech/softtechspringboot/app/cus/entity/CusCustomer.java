@@ -1,5 +1,6 @@
 package com.softtech.softtechspringboot.app.cus.entity;
 
+import com.softtech.softtechspringboot.app.gen.entity.BaseEntity;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -7,7 +8,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "CUS_CUSTOMER")
 @Data
-public class CusCustomer {
+public class CusCustomer extends BaseEntity {
     @Id
     @SequenceGenerator(name = "CusCustomer",sequenceName = "CUS_CUSTOMER_ID_SEQ")
     @GeneratedValue(generator = "CusCustomer")
