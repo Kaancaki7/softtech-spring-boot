@@ -27,14 +27,14 @@ public class AccAccountActivityService {
         Long accAccountId = accMoneyWithdrawRequestDto.getAccAccountId();
         BigDecimal amount = accMoneyWithdrawRequestDto.getAmount();
 
-        AccAccountActivity accAccountActivity = moneyOut(accAccountId, amount);
+        AccAccountActivity accAccountActivity = moneyOut(accAccountId, amount, AccAccountActivityType.WITHDRAW);
 
         AccAccountActivityDto accAccountActivityDto = AccAccountMapper.INSTANCE.convertToAccAccountActivityDto(accAccountActivity);
 
         return accAccountActivityDto;
     }
 
-    public AccAccountActivity moneyOut(Long accountId, BigDecimal amount) {
+    public AccAccountActivity moneyOut(Long accountId, BigDecimal amount, AccAccountActivityType accountActivityType) {
 
         AccAccount accAccount = accAccountEntityService.getByIdWithControl(accountId);
 
@@ -42,7 +42,7 @@ public class AccAccountActivityService {
 
         validateBalance(newBalance);
 
-        AccAccountActivity accAccountActivity = createAccAccountActivity(accountId, amount, newBalance, AccAccountActivityType.SEND);
+        AccAccountActivity accAccountActivity = createAccAccountActivity(accountId, amount, newBalance, accountActivityType);
 
         updateCurrentBalance(accAccount, newBalance);
 
@@ -50,13 +50,13 @@ public class AccAccountActivityService {
     }
 
 
-    public AccAccountActivity moneyIn(Long accountId, BigDecimal amount) {
+    public AccAccountActivity moneyIn(Long accountId, BigDecimal amount, AccAccountActivityType accountActivityType) {
 
         AccAccount accAccount = accAccountEntityService.getByIdWithControl(accountId);
 
         BigDecimal newBalance = accAccount.getCurrentBalance().add(amount);
 
-        AccAccountActivity accAccountActivity = createAccAccountActivity(accountId, amount, newBalance, AccAccountActivityType.GET);
+        AccAccountActivity accAccountActivity = createAccAccountActivity(accountId, amount, newBalance, accountActivityType);
 
         updateCurrentBalance(accAccount, newBalance);
 

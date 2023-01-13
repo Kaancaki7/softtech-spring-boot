@@ -37,6 +37,7 @@ public class AccAccountService {
     public AccAccountDto save(AccAccountSaveRequestDto accAccountSaveRequestDto) {
 
         AccAccount accAccount = AccAccountMapper.INSTANCE.convertToAccAccount(accAccountSaveRequestDto);
+        accAccount.setStatusType(GenStatusType.ACTIVE);
 
         accAccount = accAccountEntityService.save(accAccount);
 
