@@ -4,6 +4,7 @@ import com.softtech.softtechspringboot.app.cus.dto.CusCustomerDto;
 import com.softtech.softtechspringboot.app.cus.dto.CusCustomerSaveRequestDto;
 import com.softtech.softtechspringboot.app.cus.dto.CusCustomerUpdateRequestDto;
 import com.softtech.softtechspringboot.app.cus.service.CusCustomerService;
+import com.softtech.softtechspringboot.app.gen.dto.RestResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class CusCustomerController {
 
         List<CusCustomerDto> cusCustomerDtoList = cusCustomerService.findAll();
 
-        return ResponseEntity.ok(cusCustomerDtoList);
+        return ResponseEntity.ok(RestResponse.of(cusCustomerDtoList));
     }
 
     @GetMapping("/{id}")
@@ -30,7 +31,7 @@ public class CusCustomerController {
 
         CusCustomerDto cusCustomerDto = cusCustomerService.findById(id);
 
-        return ResponseEntity.ok(cusCustomerDto);
+        return ResponseEntity.ok(RestResponse.of(cusCustomerDto));
     }
 
     @PostMapping
@@ -38,7 +39,7 @@ public class CusCustomerController {
 
         CusCustomerDto cusCustomerDto = cusCustomerService.save(cusCustomerSaveRequestDto);
 
-        return ResponseEntity.ok(cusCustomerDto);
+        return ResponseEntity.ok(RestResponse.of(cusCustomerDto));
     }
 
     @DeleteMapping("/{id}")
@@ -46,7 +47,7 @@ public class CusCustomerController {
 
         cusCustomerService.delete(id);
 
-        return ResponseEntity.ok(Void.TYPE);
+        return ResponseEntity.ok(RestResponse.empty());
     }
 
     @PutMapping
@@ -54,6 +55,6 @@ public class CusCustomerController {
 
         CusCustomerDto cusCustomerDto = cusCustomerService.update(cusCustomerUpdateRequestDto);
 
-        return ResponseEntity.ok(cusCustomerDto);
+        return ResponseEntity.ok(RestResponse.of(cusCustomerDto));
     }
 }
