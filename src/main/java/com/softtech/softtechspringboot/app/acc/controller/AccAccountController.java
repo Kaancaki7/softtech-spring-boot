@@ -54,12 +54,21 @@ public class AccAccountController {
         return ResponseEntity.ok(accMoneyTransferDto);
     }
     @PostMapping("/withdraw")
-    public ResponseEntity withdraw(@RequestBody AccMoneyWithdrawRequestDto accMoneyWithdrawRequestDto){
+    public ResponseEntity withdraw(@RequestBody AccMoneyActivityRequestDto accMoneyActivityRequestDto){
 
-        AccAccountActivityDto accAccountActivityDto = accAccountActivityService.withdraw(accMoneyWithdrawRequestDto);
+        AccAccountActivityDto accAccountActivityDto = accAccountActivityService.withdraw(accMoneyActivityRequestDto);
 
         return ResponseEntity.ok(accAccountActivityDto);
     }
+
+    @PostMapping("/deposit")
+    public ResponseEntity deposit(@RequestBody AccMoneyActivityRequestDto accMoneyActivityRequestDto){
+
+        AccAccountActivityDto accAccountActivityDto = accAccountActivityService.deposit(accMoneyActivityRequestDto);
+
+        return ResponseEntity.ok(accAccountActivityDto);
+    }
+
 
 
 }
