@@ -23,7 +23,7 @@ import java.util.Objects;
 @ControllerAdvice
 public class GenCustomizedResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler
-    public final ResponseEntity<Object> handleAllException(ItemNotFoundException ex, WebRequest webRequest){
+    public final ResponseEntity<Object> handleAllException(Exception ex, WebRequest webRequest){
 
         Date errorDate = new Date();
         String message = ex.getMessage();
