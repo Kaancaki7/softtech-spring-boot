@@ -5,6 +5,7 @@ import com.softtech.softtechspringboot.app.crd.dto.CrdCreditCardResponseDto;
 import com.softtech.softtechspringboot.app.crd.dto.CrdCreditCardSaveRequestDto;
 import com.softtech.softtechspringboot.app.crd.entity.CrdCreditCard;
 import com.softtech.softtechspringboot.app.crd.service.CrdCreditCardService;
+import com.softtech.softtechspringboot.app.gen.dto.RestResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +25,6 @@ public class CrdCreditCardController {
 
         CrdCreditCardResponseDto crdCreditCardResponseDto = crdCreditCardService.saveCreditCard(crdCreditCardSaveRequestDto);
 
-        return ResponseEntity.ok(crdCreditCardResponseDto);
+        return ResponseEntity.ok(RestResponse.of(crdCreditCardResponseDto));
     }
 }

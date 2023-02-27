@@ -1,5 +1,6 @@
 package com.softtech.softtechspringboot.app.crd.service;
 
+import com.softtech.softtechspringboot.app.crd.converter.CrdCreditCardMapper;
 import com.softtech.softtechspringboot.app.crd.dto.CrdCreditCardResponseDto;
 import com.softtech.softtechspringboot.app.crd.dto.CrdCreditCardSaveRequestDto;
 import com.softtech.softtechspringboot.app.crd.entity.CrdCreditCard;
@@ -18,7 +19,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class CrdCreditCardService {
 
-    private CrdCreditCardEntityService crdCreditCardEntityService;
+    private final CrdCreditCardEntityService crdCreditCardEntityService;
 
     public CrdCreditCardResponseDto saveCreditCard(CrdCreditCardSaveRequestDto crdCreditCardSaveRequestDto) {
 
@@ -26,41 +27,96 @@ public class CrdCreditCardService {
         BigDecimal earning = crdCreditCardSaveRequestDto.getEarning();
         String cutOffDayStr = crdCreditCardSaveRequestDto.getCutOffDay();
 
-        if (StringUtils.hasText(cutOffDayStr)){
-            cutOffDayStr = "1";
-        }
+        BigDecimal limit = calculatedLimit(earning);
 
-        Integer cutOffDay = Integer.valueOf(cutOffDayStr);
-
-        BigDecimal limit = earning.multiply(BigDecimal.valueOf(3));
-
-        int currentYear = LocalDate.now().getYear();
-        int currentMonth = LocalDate.now().getMonthValue();
-        Month nextMonth = Month.of(currentMonth).plus(1);
-
-        LocalDate cutOffDateLocal = LocalDate.of(currentYear, nextMonth, cutOffDay);
-        LocalDate dueDateLocal = cutOffDateLocal.plusDays(10);
-        LocalDate expireDateLocal = LocalDate.now().plusYears(3);
-
-        Long cardNo = 123456789123456L;
-        Long cvvNo = 123L;
+        
+        LocalDate cutOffDateLocal = getCutOffDateLocal(cutOffDayStr);
+        Date dueDate = getDueDate(cutOffDateLocal);
 
         Date cutOffDate = DateUtil.convertToDate(cutOffDateLocal);
-        Date dueDate = DateUtil.convertToDate(dueDateLocal);
-        Date expireDate = DateUtil.convertToDate(expireDateLocal);
+
+        CrdCreditCard crdCreditCard = createCrdCreditCard(cusCustomerId, limit, dueDate, cutOffDate);
+
+        CrdCreditCardResponseDto crdCreditCardResponseDto = CrdCreditCardMapper.INSTANCE.convertToCrdCreditCardResponseDto(crdCreditCard);
+
+        return crdCreditCardResponseDto;
+    }
+
+    private CrdCreditCard createCrdCreditCard(Long cusCustomerId, BigDecimal limit, Date dueDate, Date cutOffDate) {
+        Date expireDate = getExpireDate();
+        Long cardNo = getCardNo();
+        Long cvvNo = getCvvNo();
 
 
         CrdCreditCard crdCreditCard = new CrdCreditCard();
         crdCreditCard.setCusCustomerId(cusCustomerId);
-        crdCreditCard.setCardNo();
-        crdCreditCard.setCvvNo();
-        crdCreditCard.setTotalLimit();
+        crdCreditCard.setCardNo(cardNo);
+        crdCreditCard.setCvvNo(cvvNo);
+        crdCreditCard.setTotalLimit(limit);
         crdCreditCard.setCurrentDebt(BigDecimal.ZERO);
-        crdCreditCard.setAvailableCardLimit();
+        crdCreditCard.setAvailableCardLimit(limit);
         crdCreditCard.setCutOffDate(cutOffDate);
         crdCreditCard.setDueDate(dueDate);
         crdCreditCard.setExpireDate(expireDate);
         crdCreditCard.setMinimumPaymentAmount(BigDecimal.ZERO);
 
+        crdCreditCard = crdCreditCardEntityService.save(crdCreditCard);
+        return crdCreditCard;
+    }
+
+    private static Date getExpireDate() {
+        LocalDate expireDateLocal = getExpireDateLocal();
+        Date expireDate = DateUtil.convertToDate(expireDateLocal);
+        return expireDate;
+    }
+
+    private static Date getDueDate(LocalDate cutOffDateLocal) {
+        LocalDate dueDateLocal = getDueDateLocal(cutOffDateLocal);
+        Date dueDate = DateUtil.convertToDate(dueDateLocal);
+        return dueDate;
+    }
+
+    private static LocalDate getExpireDateLocal() {
+        LocalDate expireDateLocal = LocalDate.now().plusYears(3);
+        return expireDateLocal;
+    }
+
+    private static LocalDate getDueDateLocal(LocalDate cutOffDateLocal) {
+        LocalDate dueDateLocal = cutOffDateLocal.plusDays(10);
+        return dueDateLocal;
+    }
+
+    private static LocalDate getCutOffDateLocal(String cutOffDayStr) {
+        int currentYear = LocalDate.now().getYear();
+        int currentMonth = LocalDate.now().getMonthValue();
+        Month nextMonth = Month.of(currentMonth).plus(1);
+
+        Integer cutOffDay = getCutOffDay(cutOffDayStr);
+        LocalDate cutOffDateLocal = LocalDate.of(currentYear, nextMonth, cutOffDay);
+        return cutOffDateLocal;
+    }
+
+    private static BigDecimal calculatedLimit(BigDecimal earning) {
+        BigDecimal limit = earning.multiply(BigDecimal.valueOf(3));
+        return limit;
+    }
+
+    private static Integer getCutOffDay(String cutOffDayStr) {
+        if (StringUtils.hasText(cutOffDayStr)){
+            cutOffDayStr = "1";
+        }
+
+        Integer cutOffDay = Integer.valueOf(cutOffDayStr);
+        return cutOffDay;
+    }
+
+    private static Long getCvvNo() {
+        Long cvvNo = 123L;
+        return cvvNo;
+    }
+
+    private static Long getCardNo() {
+        Long cardNo = 123456789123456L;
+        return cardNo;
     }
 }
