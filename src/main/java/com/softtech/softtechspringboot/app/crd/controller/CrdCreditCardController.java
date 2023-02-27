@@ -1,8 +1,12 @@
 package com.softtech.softtechspringboot.app.crd.controller;
 
 import com.softtech.softtechspringboot.app.crd.dao.CrdCreditCardDao;
+import com.softtech.softtechspringboot.app.crd.dto.CrdCreditCardResponseDto;
+import com.softtech.softtechspringboot.app.crd.dto.CrdCreditCardSaveRequestDto;
 import com.softtech.softtechspringboot.app.crd.entity.CrdCreditCard;
+import com.softtech.softtechspringboot.app.crd.service.CrdCreditCardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,13 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class CrdCreditCardController {
 
-    private final CrdCreditCardDao crdCreditCardDao;
+    private final CrdCreditCardService crdCreditCardService;
 
     @PostMapping
-    public void save(@RequestBody CrdCreditCard crdCreditCard){
+    public ResponseEntity save(@RequestBody CrdCreditCardSaveRequestDto crdCreditCardSaveRequestDto){
 
-        crdCreditCard = crdCreditCardDao.save(crdCreditCard);
+        CrdCreditCardResponseDto crdCreditCardResponseDto = crdCreditCardService.saveCreditCard(crdCreditCardSaveRequestDto);
 
-        return crdCreditCard;
+        return ResponseEntity.ok(crdCreditCardResponseDto);
     }
 }

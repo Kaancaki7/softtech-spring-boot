@@ -16,13 +16,6 @@ public class CrdCreditCardSaveRequestDto {
     @NotNull
     private Long cusCustomerId;
     @NotNull
-    private Long cardNo;
-    @NotNull
-    private Long cvvNo;
-    private BigDecimal totalLimit;
-    private BigDecimal availableCardLimit;
-    private BigDecimal currentDebt;
-    private BigDecimal minimumPaymentAmount;
-    private Date cutOffDate;
-    private Date dueDate;
+    private BigDecimal earning;
+    private String cutOffDay;
 }
