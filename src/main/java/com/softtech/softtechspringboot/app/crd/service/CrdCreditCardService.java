@@ -1,11 +1,19 @@
 package com.softtech.softtechspringboot.app.crd.service;
 
+import com.softtech.softtechspringboot.app.crd.converter.CrdCreditCardActivityMapper;
 import com.softtech.softtechspringboot.app.crd.converter.CrdCreditCardMapper;
+import com.softtech.softtechspringboot.app.crd.dto.CrdCreditCardActivityDto;
 import com.softtech.softtechspringboot.app.crd.dto.CrdCreditCardResponseDto;
 import com.softtech.softtechspringboot.app.crd.dto.CrdCreditCardSaveRequestDto;
+import com.softtech.softtechspringboot.app.crd.dto.CrdCreditCardSpendDto;
 import com.softtech.softtechspringboot.app.crd.entity.CrdCreditCard;
+import com.softtech.softtechspringboot.app.crd.entity.CrdCreditCardActivity;
+import com.softtech.softtechspringboot.app.crd.enums.CrdCreditCardActivityType;
+import com.softtech.softtechspringboot.app.crd.enums.CrdErrorMessage;
+import com.softtech.softtechspringboot.app.crd.service.entityservice.CrdCreditCardActivityEntityService;
 import com.softtech.softtechspringboot.app.crd.service.entityservice.CrdCreditCardEntityService;
 import com.softtech.softtechspringboot.app.gen.enums.GenStatusType;
+import com.softtech.softtechspringboot.app.gen.exceptions.GenBusinessException;
 import com.softtech.softtechspringboot.app.gen.util.DateUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,6 +30,7 @@ import java.util.List;
 public class CrdCreditCardService {
 
     private final CrdCreditCardEntityService crdCreditCardEntityService;
+    private final CrdCreditCardActivityEntityService crdCreditCardActivityEntityService;
 
     public List<CrdCreditCardResponseDto> findAll() {
 
@@ -148,5 +157,49 @@ public class CrdCreditCardService {
         crdCreditCard.setCancelDate(new Date());
 
         crdCreditCardEntityService.save(crdCreditCard);
+    }
+
+    public CrdCreditCardActivityDto spend(CrdCreditCardSpendDto crdCreditCardSpendDto) {
+
+        Long cardNo = crdCreditCardSpendDto.getCardNo();
+        Long cvvNo = crdCreditCardSpendDto.getCvvNo();
+        Date expireDate = crdCreditCardSpendDto.getExpireDate();
+        BigDecimal amount = crdCreditCardSpendDto.getAmount();
+        String description = crdCreditCardSpendDto.getDescription();
+
+        CrdCreditCard crdCreditCard = crdCreditCardEntityService.findByCardNoAndCvvNoAndExpireDate(cardNo, cvvNo, expireDate);
+        if (crdCreditCard == null) {
+            throw new GenBusinessException(CrdErrorMessage.INVALID_CREDIT_CARD);
+        }
+
+        BigDecimal currentDebt = crdCreditCard.getCurrentDebt().add(amount);
+        BigDecimal currentAvailableLimit = crdCreditCard.getAvailableCardLimit().subtract(amount);
+
+        if (currentAvailableLimit.compareTo(BigDecimal.ZERO) < 0){
+            throw new GenBusinessException(CrdErrorMessage.INSUFFICIENT_CREDIT_CARD_LIMIT);
+        }
+
+        CrdCreditCardActivity crdCreditCardActivity = createCrdCreditCardActivity(amount, description, crdCreditCard);
+
+        crdCreditCard.setCurrentDebt(currentDebt);
+        crdCreditCard.setAvailableCardLimit(currentAvailableLimit);
+
+        crdCreditCard = crdCreditCardEntityService.save(crdCreditCard);
+
+        CrdCreditCardActivityDto result = CrdCreditCardActivityMapper.INSTANCE.convertToCrdCreditCardActivityDto(crdCreditCardActivity);
+
+        return result;
+    }
+
+    private CrdCreditCardActivity createCrdCreditCardActivity(BigDecimal amount, String description, CrdCreditCard crdCreditCard) {
+        CrdCreditCardActivity crdCreditCardActivity = new CrdCreditCardActivity();
+        crdCreditCardActivity.setCrdCreditCardId(crdCreditCard.getId());
+        crdCreditCardActivity.setCardActivityType(CrdCreditCardActivityType.SPEND);
+        crdCreditCardActivity.setAmount(amount);
+        crdCreditCardActivity.setTransactionDate(new Date());
+        crdCreditCardActivity.setDescription(description);
+
+        crdCreditCardActivity = crdCreditCardEntityService.save(crdCreditCardActivity);
+        return crdCreditCardActivity;
     }
 }
