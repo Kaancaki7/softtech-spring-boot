@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Entity
 @Table(name = "ACC_ACCOUNT")
@@ -35,5 +36,8 @@ public class AccAccount extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "STATUS_TYPE",length = 30)
     private GenStatusType statusType;
+    @Column(name = "CANCEL_DATE")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date cancelDate;
 
 }

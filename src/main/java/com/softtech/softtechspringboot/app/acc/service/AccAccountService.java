@@ -9,6 +9,7 @@ import com.softtech.softtechspringboot.app.gen.enums.GenStatusType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -51,6 +52,7 @@ public class AccAccountService {
         AccAccount accAccount = accAccountEntityService.getByIdWithControl(accountId);
 
         accAccount.setStatusType(GenStatusType.PASSIVE);
+        accAccount.setCancelDate(new Date());
 
         accAccountEntityService.save(accAccount);
     }

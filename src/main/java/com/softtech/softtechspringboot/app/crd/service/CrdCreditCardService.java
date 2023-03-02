@@ -31,6 +31,15 @@ public class CrdCreditCardService {
         return result;
     }
 
+    public CrdCreditCardResponseDto findById(Long id) {
+
+        CrdCreditCard crdCreditCard = crdCreditCardEntityService.getByIdWithControl(id);
+
+        CrdCreditCardResponseDto result = CrdCreditCardMapper.INSTANCE.convertToCrdCreditCardResponseDto(crdCreditCard);
+
+        return result;
+    }
+
     public CrdCreditCardResponseDto saveCreditCard(CrdCreditCardSaveRequestDto crdCreditCardSaveRequestDto) {
 
         Long cusCustomerId = crdCreditCardSaveRequestDto.getCusCustomerId();

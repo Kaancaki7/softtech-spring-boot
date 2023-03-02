@@ -19,13 +19,6 @@ public class CrdCreditCardController {
 
     private final CrdCreditCardService crdCreditCardService;
 
-    @GetMapping
-    public ResponseEntity findAll(){
-
-        List<CrdCreditCardResponseDto> crdCreditCardResponseDtoList = crdCreditCardService.findAll();
-
-        return ResponseEntity.ok(RestResponse.of(crdCreditCardResponseDtoList));
-    }
     @PostMapping
     public ResponseEntity save(@RequestBody CrdCreditCardSaveRequestDto crdCreditCardSaveRequestDto){
 
@@ -33,4 +26,20 @@ public class CrdCreditCardController {
 
         return ResponseEntity.ok(RestResponse.of(crdCreditCardResponseDto));
     }
+    @GetMapping
+    public ResponseEntity findAll(){
+
+        List<CrdCreditCardResponseDto> crdCreditCardResponseDtoList = crdCreditCardService.findAll();
+
+        return ResponseEntity.ok(RestResponse.of(crdCreditCardResponseDtoList));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity findById(@PathVariable Long id){
+
+        CrdCreditCardResponseDto crdCreditCardResponseDto = crdCreditCardService.findById(id);
+
+        return ResponseEntity.ok(RestResponse.of(crdCreditCardResponseDto));
+    }
+
 }
