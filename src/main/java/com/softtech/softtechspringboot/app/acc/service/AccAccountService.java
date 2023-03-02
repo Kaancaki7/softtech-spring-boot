@@ -20,7 +20,7 @@ public class AccAccountService {
 
     public List<AccAccountDto> findAll() {
 
-        List<AccAccount> accAccountList = accAccountEntityService.findAll();
+        List<AccAccount> accAccountList = accAccountEntityService.findAllByStatusType(GenStatusType.ACTIVE);
 
         List<AccAccountDto> accAccountDtoList = AccAccountMapper.INSTANCE.convertToAccountDtoList(accAccountList);
 
