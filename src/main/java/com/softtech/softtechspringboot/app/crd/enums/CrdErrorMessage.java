@@ -5,7 +5,8 @@ import com.softtech.softtechspringboot.app.gen.enums.BaseErrorMessage;
 public enum CrdErrorMessage implements BaseErrorMessage {
 
     INVALID_CREDIT_CARD("Invalid credit card!"),
-    INSUFFICIENT_CREDIT_CARD_LIMIT("Insufficient credit card limit!")
+    INSUFFICIENT_CREDIT_CARD_LIMIT("Insufficient credit card limit!"),
+    CREDIT_CARD_EXPIRED("this credit card expired!")
     ;
 
     private String message;

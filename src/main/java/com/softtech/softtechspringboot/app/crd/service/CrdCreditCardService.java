@@ -161,34 +161,58 @@ public class CrdCreditCardService {
 
     public CrdCreditCardActivityDto spend(CrdCreditCardSpendDto crdCreditCardSpendDto) {
 
-        Long cardNo = crdCreditCardSpendDto.getCardNo();
-        Long cvvNo = crdCreditCardSpendDto.getCvvNo();
-        Date expireDate = crdCreditCardSpendDto.getExpireDate();
+        
         BigDecimal amount = crdCreditCardSpendDto.getAmount();
         String description = crdCreditCardSpendDto.getDescription();
 
-        CrdCreditCard crdCreditCard = crdCreditCardEntityService.findByCardNoAndCvvNoAndExpireDate(cardNo, cvvNo, expireDate);
-        if (crdCreditCard == null) {
-            throw new GenBusinessException(CrdErrorMessage.INVALID_CREDIT_CARD);
-        }
+        CrdCreditCard crdCreditCard = getCrdCreditCard(crdCreditCardSpendDto);
+
+        validateCreditCard(crdCreditCard);
 
         BigDecimal currentDebt = crdCreditCard.getCurrentDebt().add(amount);
         BigDecimal currentAvailableLimit = crdCreditCard.getAvailableCardLimit().subtract(amount);
 
-        if (currentAvailableLimit.compareTo(BigDecimal.ZERO) < 0){
-            throw new GenBusinessException(CrdErrorMessage.INSUFFICIENT_CREDIT_CARD_LIMIT);
-        }
+        validateCardLimit(currentAvailableLimit);
+
+        updatedCreditCardForSpend(crdCreditCard, currentDebt, currentAvailableLimit);
 
         CrdCreditCardActivity crdCreditCardActivity = createCrdCreditCardActivity(amount, description, crdCreditCard);
+        CrdCreditCardActivityDto result = CrdCreditCardActivityMapper.INSTANCE.convertToCrdCreditCardActivityDto(crdCreditCardActivity);
 
+        return result;
+    }
+
+    private CrdCreditCard updatedCreditCardForSpend(CrdCreditCard crdCreditCard, BigDecimal currentDebt, BigDecimal currentAvailableLimit) {
         crdCreditCard.setCurrentDebt(currentDebt);
         crdCreditCard.setAvailableCardLimit(currentAvailableLimit);
 
         crdCreditCard = crdCreditCardEntityService.save(crdCreditCard);
 
-        CrdCreditCardActivityDto result = CrdCreditCardActivityMapper.INSTANCE.convertToCrdCreditCardActivityDto(crdCreditCardActivity);
+        return crdCreditCard;
+    }
 
-        return result;
+    private CrdCreditCard getCrdCreditCard(CrdCreditCardSpendDto crdCreditCardSpendDto) {
+        Long cardNo = crdCreditCardSpendDto.getCardNo();
+        Long cvvNo = crdCreditCardSpendDto.getCvvNo();
+        Date expireDate = crdCreditCardSpendDto.getExpireDate();
+        CrdCreditCard crdCreditCard = crdCreditCardEntityService.findByCardNoAndCvvNoAndExpireDate(cardNo, cvvNo, expireDate);
+        return crdCreditCard;
+    }
+
+    private static void validateCardLimit(BigDecimal currentAvailableLimit) {
+        if (currentAvailableLimit.compareTo(BigDecimal.ZERO) < 0){
+            throw new GenBusinessException(CrdErrorMessage.INSUFFICIENT_CREDIT_CARD_LIMIT);
+        }
+    }
+
+    private static void validateCreditCard(CrdCreditCard crdCreditCard) {
+        if (crdCreditCard == null) {
+            throw new GenBusinessException(CrdErrorMessage.INVALID_CREDIT_CARD);
+        }
+
+        if (crdCreditCard.getExpireDate().before(new Date())){
+            throw new GenBusinessException(CrdErrorMessage.CREDIT_CARD_EXPIRED);
+        }
     }
 
     private CrdCreditCardActivity createCrdCreditCardActivity(BigDecimal amount, String description, CrdCreditCard crdCreditCard) {
