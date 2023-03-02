@@ -14,12 +14,22 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class CrdCreditCardService {
 
     private final CrdCreditCardEntityService crdCreditCardEntityService;
+
+    public List<CrdCreditCardResponseDto> findAll() {
+
+        List<CrdCreditCard> crdCreditCardList = crdCreditCardEntityService.findAll();
+
+        List<CrdCreditCardResponseDto> result = CrdCreditCardMapper.INSTANCE.convertToCrdCreditCardResponseDtoList(crdCreditCardList);
+
+        return result;
+    }
 
     public CrdCreditCardResponseDto saveCreditCard(CrdCreditCardSaveRequestDto crdCreditCardSaveRequestDto) {
 
@@ -29,7 +39,7 @@ public class CrdCreditCardService {
 
         BigDecimal limit = calculatedLimit(earning);
 
-        
+
         LocalDate cutOffDateLocal = getCutOffDateLocal(cutOffDayStr);
         Date dueDate = getDueDate(cutOffDateLocal);
 
