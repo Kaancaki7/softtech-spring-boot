@@ -5,6 +5,7 @@ import com.softtech.softtechspringboot.app.crd.dto.CrdCreditCardResponseDto;
 import com.softtech.softtechspringboot.app.crd.dto.CrdCreditCardSaveRequestDto;
 import com.softtech.softtechspringboot.app.crd.entity.CrdCreditCard;
 import com.softtech.softtechspringboot.app.crd.service.entityservice.CrdCreditCardEntityService;
+import com.softtech.softtechspringboot.app.gen.enums.GenStatusType;
 import com.softtech.softtechspringboot.app.gen.util.DateUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ public class CrdCreditCardService {
 
     public List<CrdCreditCardResponseDto> findAll() {
 
-        List<CrdCreditCard> crdCreditCardList = crdCreditCardEntityService.findAll();
+        List<CrdCreditCard> crdCreditCardList = crdCreditCardEntityService.findAllByStatusType(GenStatusType.ACTIVE);
 
         List<CrdCreditCardResponseDto> result = CrdCreditCardMapper.INSTANCE.convertToCrdCreditCardResponseDtoList(crdCreditCardList);
 
@@ -137,5 +138,15 @@ public class CrdCreditCardService {
     private static Long getCardNo() {
         Long cardNo = 123456789123456L;
         return cardNo;
+    }
+
+    public void cancel(Long cardId) {
+
+        CrdCreditCard crdCreditCard = crdCreditCardEntityService.getByIdWithControl(cardId);
+
+        crdCreditCard.setStatusType(GenStatusType.PASSIVE);
+        crdCreditCard.setCancelDate(new Date());
+
+        crdCreditCardEntityService.save(crdCreditCard);
     }
 }
