@@ -2,10 +2,7 @@ package com.softtech.softtechspringboot.app.crd.service;
 
 import com.softtech.softtechspringboot.app.crd.converter.CrdCreditCardActivityMapper;
 import com.softtech.softtechspringboot.app.crd.converter.CrdCreditCardMapper;
-import com.softtech.softtechspringboot.app.crd.dto.CrdCreditCardActivityDto;
-import com.softtech.softtechspringboot.app.crd.dto.CrdCreditCardResponseDto;
-import com.softtech.softtechspringboot.app.crd.dto.CrdCreditCardSaveRequestDto;
-import com.softtech.softtechspringboot.app.crd.dto.CrdCreditCardSpendDto;
+import com.softtech.softtechspringboot.app.crd.dto.*;
 import com.softtech.softtechspringboot.app.crd.entity.CrdCreditCard;
 import com.softtech.softtechspringboot.app.crd.entity.CrdCreditCardActivity;
 import com.softtech.softtechspringboot.app.crd.enums.CrdCreditCardActivityType;
@@ -259,6 +256,11 @@ public class CrdCreditCardService {
     private CrdCreditCard updateCreditCardForRefund(CrdCreditCardActivity oldCrdCreditCardActivity, BigDecimal amount) {
         CrdCreditCard crdCreditCard = crdCreditCardEntityService.getByIdWithControl(oldCrdCreditCardActivity.getCrdCreditCardId());
 
+        crdCreditCard = addLimitToCard(crdCreditCard, amount);
+        return crdCreditCard;
+    }
+
+    private CrdCreditCard addLimitToCard(CrdCreditCard crdCreditCard, BigDecimal amount) {
         BigDecimal currentDebt = crdCreditCard.getCurrentDebt().subtract(amount);
         BigDecimal currentAvailableLimit = crdCreditCard.getAvailableCardLimit().add(amount);
 
@@ -266,5 +268,36 @@ public class CrdCreditCardService {
         crdCreditCard.setAvailableCardLimit(currentAvailableLimit);
         crdCreditCard = crdCreditCardEntityService.save(crdCreditCard);
         return crdCreditCard;
+    }
+
+    public CrdCreditCardActivityDto payment(CrdCreditCardPaymentDto crdCreditCardPaymentDto) {
+
+        Long crdCreditCardId = crdCreditCardPaymentDto.getCrdCreditCardId();
+        BigDecimal amount = crdCreditCardPaymentDto.getAmount();
+
+        CrdCreditCard crdCreditCard = crdCreditCardEntityService.getByIdWithControl(crdCreditCardId);
+
+        addLimitToCard(crdCreditCard ,amount);
+
+        CrdCreditCardActivity crdCreditCardActivity = createCrdCreditCardActivityForPayment(crdCreditCardId, amount);
+
+        CrdCreditCardActivityDto result = CrdCreditCardActivityMapper.INSTANCE.convertToCrdCreditCardActivityDto(crdCreditCardActivity);
+
+        return result;
+
+    }
+
+    private CrdCreditCardActivity createCrdCreditCardActivityForPayment(Long crdCreditCardId, BigDecimal amount) {
+
+        CrdCreditCardActivity crdCreditCardActivity = new CrdCreditCardActivity();
+
+        crdCreditCardActivity.setCrdCreditCardId(crdCreditCardId);
+        crdCreditCardActivity.setCardActivityType(CrdCreditCardActivityType.PAYMENT);
+        crdCreditCardActivity.setAmount(amount);
+        crdCreditCardActivity.setTransactionDate(new Date());
+        crdCreditCardActivity.setDescription("PAYMENT");
+
+        crdCreditCardActivity = crdCreditCardActivityEntityService.save(crdCreditCardActivity);
+        return crdCreditCardActivity;
     }
 }
