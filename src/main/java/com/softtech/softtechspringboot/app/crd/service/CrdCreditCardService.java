@@ -300,4 +300,13 @@ public class CrdCreditCardService {
         crdCreditCardActivity = crdCreditCardActivityEntityService.save(crdCreditCardActivity);
         return crdCreditCardActivity;
     }
+
+    public List<CrdCreditCardActivityDto> findAllActivities(Long id, Date startDate, Date endDate) {
+
+        List<CrdCreditCardActivity> crdCreditCardActivityList = crdCreditCardActivityEntityService.findAllByCrdCreditCardIdAndTransactionDateBetween(id, startDate, endDate);
+
+        List<CrdCreditCardActivityDto> result = CrdCreditCardActivityMapper.INSTANCE.convertToCrdCreditCardActivityDtoList(crdCreditCardActivityList);
+
+        return result;
+    }
 }
