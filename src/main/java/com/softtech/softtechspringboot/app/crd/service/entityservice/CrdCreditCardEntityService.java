@@ -22,7 +22,7 @@ public class CrdCreditCardEntityService extends BaseEntityService<CrdCreditCard,
     }
 
     public CrdCreditCard findByCardNoAndCvvNoAndExpireDate(Long cardNo, Long cvvNo, Date expireDate){
-        return getDao().findByCardNoAndCvvNoAndExpireDate(cardNo, cvvNo, expireDate);
+        return getDao().findByCardNoAndCvvNoAndExpireDateAndStatusType(cardNo, cvvNo, expireDate, GenStatusType.ACTIVE);
     }
 
 

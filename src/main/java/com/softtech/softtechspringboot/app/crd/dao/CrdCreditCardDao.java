@@ -13,5 +13,5 @@ public interface CrdCreditCardDao extends JpaRepository<CrdCreditCard, Long> {
 
     List<CrdCreditCard> findAllByStatusType(GenStatusType statusType);
 
-    CrdCreditCard findByCardNoAndCvvNoAndExpireDate(Long cardNo, Long cvvNo, Date expireDate);
+    CrdCreditCard findByCardNoAndCvvNoAndExpireDateAndStatusType(Long cardNo, Long cvvNo, Date expireDate, GenStatusType statusType);
 }
