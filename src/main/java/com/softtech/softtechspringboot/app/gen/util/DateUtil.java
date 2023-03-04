@@ -12,8 +12,14 @@ import java.util.Date;
 public class DateUtil {
 
 
+    public static LocalDate convertToLocalDate(Date dateToConvert) {
+        LocalDate localDate = Instant.ofEpochMilli(dateToConvert.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+
+        return localDate;
+    }
+
     public static LocalDateTime convertToLocalDateTime(Date dateToConvert) {
-        return Instant.ofEpochMilli(dateToConvert.getTime())
+        return dateToConvert.toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDateTime();
     }

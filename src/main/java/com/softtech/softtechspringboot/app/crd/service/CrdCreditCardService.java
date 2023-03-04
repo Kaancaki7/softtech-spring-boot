@@ -309,4 +309,24 @@ public class CrdCreditCardService {
 
         return result;
     }
+
+    public CrdCreditCardDetailsDto statement(Long id) {
+
+        CrdCreditCard crdCreditCard = crdCreditCardEntityService.getByIdWithControl(id);
+        Date termEndDate = crdCreditCard.getCutOffDate();
+        Long crdCreditCardId = crdCreditCard.getId();
+
+        LocalDate cutOffDateLocal = LocalDate.from(DateUtil.convertToLocalDate(termEndDate));
+
+        LocalDate termStartDateLocal = cutOffDateLocal.minusMonths(1);
+        Date termStartDate = DateUtil.convertToDate(termStartDateLocal);
+
+        CrdCreditCardDetailsDto creditCardDetails = crdCreditCardEntityService.getCreditCardDetails(crdCreditCardId);
+        List<CrdCreditCardActivity> crdCreditCardActivityList = crdCreditCardActivityEntityService.findAllByCrdCreditCardIdAndTransactionDateBetween(crdCreditCardId, termStartDate, termEndDate);
+
+        List<CrdCreditCardActivityDto> crdCreditCardActivityDtoList = CrdCreditCardActivityMapper.INSTANCE.convertToCrdCreditCardActivityDtoList(crdCreditCardActivityList);
+        creditCardDetails.setCrdCreditCardActivityDtoList(crdCreditCardActivityDtoList);
+
+        return creditCardDetails;
+    }
 }

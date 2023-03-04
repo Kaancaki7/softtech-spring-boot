@@ -1,9 +1,6 @@
 package com.softtech.softtechspringboot.app.crd.controller;
 
-import com.softtech.softtechspringboot.app.crd.dao.CrdCreditCardDao;
 import com.softtech.softtechspringboot.app.crd.dto.*;
-import com.softtech.softtechspringboot.app.crd.entity.CrdCreditCard;
-import com.softtech.softtechspringboot.app.crd.entity.CrdCreditCardActivity;
 import com.softtech.softtechspringboot.app.crd.service.CrdCreditCardService;
 import com.softtech.softtechspringboot.app.gen.dto.RestResponse;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/credit-card")
+@RequestMapping("/api/v1/credit-cards")
 @RequiredArgsConstructor
 public class CrdCreditCardController {
 
@@ -88,4 +85,12 @@ public class CrdCreditCardController {
 
     }
 
+    @GetMapping("/{id}/statements")
+    public ResponseEntity statement(@PathVariable Long id){
+
+        CrdCreditCardDetailsDto crdCreditCardDetailsDto = crdCreditCardService.statement(id);
+
+        return ResponseEntity.ok(RestResponse.of(crdCreditCardDetailsDto));
+
+    }
 }
