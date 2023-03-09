@@ -24,7 +24,7 @@ public class TransactionalService {
 
     public void saveT2N(){
 
-        CusCustomer cusCustomer = TransactionalUtil.getDummyCusCustomer("ts2");
+        CusCustomer cusCustomer = TransactionalUtil.getDummyCusCustomer("ts3");
 
         customerEntityService.save(cusCustomer);
 
