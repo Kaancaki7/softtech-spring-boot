@@ -14,10 +14,20 @@ import javax.transaction.Transactional;
 public class TransactionalService {
 
     private final CusCustomerEntityService customerEntityService;
+    private final NonTransactionalService nonTransactionalService;
     public void save(){
 
         CusCustomer cusCustomer = TransactionalUtil.getDummyCusCustomer("ts2");
 
         customerEntityService.save(cusCustomer);
+    }
+
+    public void saveT2N(){
+
+        CusCustomer cusCustomer = TransactionalUtil.getDummyCusCustomer("ts2");
+
+        customerEntityService.save(cusCustomer);
+
+        nonTransactionalService.save();
     }
 }
