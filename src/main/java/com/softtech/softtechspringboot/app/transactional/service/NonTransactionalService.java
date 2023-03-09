@@ -35,4 +35,13 @@ public class NonTransactionalService {
         transactionalService.save();
     }
 
+    public void saveButError(){
+
+        CusCustomer cusCustomer = TransactionalUtil.getDummyCusCustomer("ts7");
+
+        customerEntityService.save(cusCustomer);
+
+        throw new RuntimeException("error");
+    }
+
 }

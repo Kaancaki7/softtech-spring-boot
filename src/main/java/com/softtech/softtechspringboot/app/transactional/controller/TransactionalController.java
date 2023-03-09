@@ -44,4 +44,9 @@ public class TransactionalController {
         public void ts6(){
                 transactionalService.saveButError();
         }
+
+        @PostMapping("/ts7")
+        public void ts7(){
+                nonTransactionalService.saveButError();
+        }
 }
