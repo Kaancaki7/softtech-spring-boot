@@ -39,4 +39,13 @@ public class TransactionalService {
 
         save();
     }
+
+    public void saveButError(){
+
+        CusCustomer cusCustomer = TransactionalUtil.getDummyCusCustomer("ts6");
+
+        customerEntityService.save(cusCustomer);
+
+        throw new RuntimeException("error");
+    }
 }

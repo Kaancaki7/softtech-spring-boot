@@ -39,4 +39,9 @@ public class TransactionalController {
         public void ts5(){
                 transactionalService.saveT2T();
         }
+
+        @PostMapping("/ts6")
+        public void ts6(){
+                transactionalService.saveButError();
+        }
 }
