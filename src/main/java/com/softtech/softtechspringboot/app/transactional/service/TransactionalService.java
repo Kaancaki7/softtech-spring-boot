@@ -30,4 +30,13 @@ public class TransactionalService {
 
         nonTransactionalService.save();
     }
+
+    public void saveT2T(){
+
+        CusCustomer cusCustomer = TransactionalUtil.getDummyCusCustomer("ts5");
+
+        customerEntityService.save(cusCustomer);
+
+        save();
+    }
 }
