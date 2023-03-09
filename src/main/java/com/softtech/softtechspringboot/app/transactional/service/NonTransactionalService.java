@@ -28,7 +28,7 @@ public class NonTransactionalService {
 
     public void saveN2T(){
 
-        CusCustomer cusCustomer = TransactionalUtil.getDummyCusCustomer("ts2");
+        CusCustomer cusCustomer = TransactionalUtil.getDummyCusCustomer("ts4");
 
         customerEntityService.save(cusCustomer);
 

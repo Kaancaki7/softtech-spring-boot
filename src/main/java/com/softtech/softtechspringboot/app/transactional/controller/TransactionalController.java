@@ -29,4 +29,9 @@ public class TransactionalController {
         public void ts3(){
                 transactionalService.saveT2N();
         }
+
+        @PostMapping("/ts4")
+        public void ts4(){
+                nonTransactionalService.saveN2T();
+        }
 }
