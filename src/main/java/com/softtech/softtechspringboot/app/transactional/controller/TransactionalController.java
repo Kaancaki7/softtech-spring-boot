@@ -61,21 +61,4 @@ public class TransactionalController {
                 transactionalService.save();
         }
 
-        public void saveT2RN(){
-
-                CusCustomer cusCustomer = TransactionalUtil.getDummyCusCustomer("ts8-1");
-
-                saveRN();
-
-                customerEntityService.save(cusCustomer);
-        }
-        @Transactional(propagation = Propagation.REQUIRES_NEW)
-        public void saveRN(){
-
-                CusCustomer cusCustomer = TransactionalUtil.getDummyCusCustomer("ts8-2");
-
-                customerEntityService.save(cusCustomer);
-        }
-
-
 }

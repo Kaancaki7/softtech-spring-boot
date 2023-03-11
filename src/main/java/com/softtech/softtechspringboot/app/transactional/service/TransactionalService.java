@@ -5,6 +5,7 @@ import com.softtech.softtechspringboot.app.cus.service.entityservice.CusCustomer
 import com.softtech.softtechspringboot.app.transactional.util.TransactionalUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 
 import javax.transaction.Transactional;
 
@@ -47,5 +48,21 @@ public class TransactionalService {
         customerEntityService.save(cusCustomer);
 
         throw new RuntimeException("error");
+    }
+
+    public void saveT2RN(){
+
+        CusCustomer cusCustomer = TransactionalUtil.getDummyCusCustomer("ts8-1");
+
+        saveRN();
+
+        customerEntityService.save(cusCustomer);
+    }
+    @org.springframework.transaction.annotation.Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void saveRN(){
+
+        CusCustomer cusCustomer = TransactionalUtil.getDummyCusCustomer("ts8-2");
+
+        customerEntityService.save(cusCustomer);
     }
 }
