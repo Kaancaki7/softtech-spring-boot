@@ -16,6 +16,7 @@ public class TransactionalService {
 
     private final CusCustomerEntityService customerEntityService;
     private final NonTransactionalService nonTransactionalService;
+    private final TransactionalService2 transactionalService2;
     public void save(){
 
         CusCustomer cusCustomer = TransactionalUtil.getDummyCusCustomer("ts2");
@@ -58,6 +59,7 @@ public class TransactionalService {
 
         customerEntityService.save(cusCustomer);
     }
+
     @org.springframework.transaction.annotation.Transactional(propagation = Propagation.REQUIRES_NEW)
     public void saveRN(){
 
@@ -65,4 +67,15 @@ public class TransactionalService {
 
         customerEntityService.save(cusCustomer);
     }
+
+    public void saveT2RNWithDifferentBean(){
+
+        CusCustomer cusCustomer = TransactionalUtil.getDummyCusCustomer("ts9-1");
+
+        transactionalService2.saveRN();
+
+        customerEntityService.save(cusCustomer);
+    }
+
+
 }

@@ -19,7 +19,6 @@ public class TransactionalController {
 
         private final TransactionalService transactionalService;
         private final NonTransactionalService nonTransactionalService;
-        private final CusCustomerEntityService customerEntityService;
 
         @PostMapping("/ts1")
         public void ts1(){
@@ -59,6 +58,11 @@ public class TransactionalController {
         @PostMapping("/ts8")
         public void ts8(){
                 transactionalService.save();
+        }
+
+        @PostMapping("/ts9")
+        public void ts9(){
+                transactionalService.saveT2RNWithDifferentBean();
         }
 
 }
