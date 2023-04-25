@@ -44,7 +44,7 @@ public class NonTransactionalService {
         throw new RuntimeException("error");
     }
 
-    public void saveMandatory(){
+    public void saveN2Mandatory(){
 
         CusCustomer cusCustomer = TransactionalUtil.getDummyCusCustomer("ts11-NT");
 

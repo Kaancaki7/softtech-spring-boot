@@ -72,7 +72,12 @@ public class TransactionalController {
 
         @PostMapping("/ts11")
         public void ts11(){
-                nonTransactionalService.saveMandatory();
+                nonTransactionalService.saveN2Mandatory();
+        }
+
+        @PostMapping("/ts12")
+        public void ts12(){
+                transactionalService.saveMandatory();
         }
 
 }
