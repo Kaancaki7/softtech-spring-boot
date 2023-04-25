@@ -42,4 +42,13 @@ public class TransactionalService2 {
 
         customerEntityService.save(cusCustomer);
     }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public void saveSupports() {
+
+        CusCustomer cusCustomer = TransactionalUtil.getDummyCusCustomer("ts13");
+
+        customerEntityService.save(cusCustomer);
+
+    }
 }

@@ -111,4 +111,12 @@ public class TransactionalService {
         transactionalService2.saveMandatory();
     }
 
+    public void saveT2Supports() {
+
+        CusCustomer cusCustomer = TransactionalUtil.getDummyCusCustomer("ts13");
+
+        customerEntityService.save(cusCustomer);
+
+        transactionalService2.saveSupports();
+    }
 }

@@ -80,4 +80,9 @@ public class TransactionalController {
                 transactionalService.saveT2Mandatory();
         }
 
+        @PostMapping("/ts13")
+        public void ts13(){
+                transactionalService.saveT2Supports();
+        }
+
 }
