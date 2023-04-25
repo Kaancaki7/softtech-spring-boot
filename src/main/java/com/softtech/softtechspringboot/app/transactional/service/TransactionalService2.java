@@ -22,4 +22,16 @@ public class TransactionalService2 {
 
         customerEntityService.save(cusCustomer);
     }
+
+    @org.springframework.transaction.annotation.Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void saveRN(int i){
+
+        CusCustomer cusCustomer = TransactionalUtil.getDummyCusCustomer("ts10-" + i);
+
+        if (i == 7){
+            throw new RuntimeException("error!");
+        }
+
+        customerEntityService.save(cusCustomer);
+    }
 }

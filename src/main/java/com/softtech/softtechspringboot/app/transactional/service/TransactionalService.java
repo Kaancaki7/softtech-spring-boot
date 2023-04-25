@@ -77,5 +77,20 @@ public class TransactionalService {
         customerEntityService.save(cusCustomer);
     }
 
+    public void saveT2RNButError(){
+
+        CusCustomer cusCustomer = TransactionalUtil.getDummyCusCustomer("ts10-1");
+
+        customerEntityService.save(cusCustomer);
+
+        for (int i = 0; i < 10; i++){
+            try{
+                transactionalService2.saveRN(i);
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
 
 }

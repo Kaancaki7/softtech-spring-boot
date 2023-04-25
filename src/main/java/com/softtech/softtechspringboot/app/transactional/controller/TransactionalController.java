@@ -65,4 +65,9 @@ public class TransactionalController {
                 transactionalService.saveT2RNWithDifferentBean();
         }
 
+        @PostMapping("/ts10")
+        public void ts10(){
+                transactionalService.saveT2RNButError();
+        }
+
 }
