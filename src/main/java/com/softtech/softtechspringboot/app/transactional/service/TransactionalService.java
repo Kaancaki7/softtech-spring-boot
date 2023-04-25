@@ -96,9 +96,19 @@ public class TransactionalService {
     @org.springframework.transaction.annotation.Transactional(propagation = Propagation.MANDATORY)
     public void saveMandatory(){
 
-        CusCustomer cusCustomer = TransactionalUtil.getDummyCusCustomer("ts11-T");
+        CusCustomer cusCustomer = TransactionalUtil.getDummyCusCustomer("ts12");
 
         customerEntityService.save(cusCustomer);
+    }
+
+
+    public void saveT2Mandatory(){
+
+        CusCustomer cusCustomer = TransactionalUtil.getDummyCusCustomer("ts12");
+
+        customerEntityService.save(cusCustomer);
+
+        transactionalService2.saveMandatory();
     }
 
 }
