@@ -70,4 +70,9 @@ public class TransactionalController {
                 transactionalService.saveT2RNButError();
         }
 
+        @PostMapping("/ts11")
+        public void ts11(){
+                nonTransactionalService.saveMandatory();
+        }
+
 }
