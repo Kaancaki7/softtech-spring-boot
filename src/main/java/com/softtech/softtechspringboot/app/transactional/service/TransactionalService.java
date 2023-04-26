@@ -17,6 +17,7 @@ public class TransactionalService {
     private final CusCustomerEntityService customerEntityService;
     private final NonTransactionalService nonTransactionalService;
     private final TransactionalService2 transactionalService2;
+    private final TransactionalConstantService transactionalConstantService;
     public void save(){
 
         CusCustomer cusCustomer = TransactionalUtil.getDummyCusCustomer("ts2");
@@ -118,5 +119,13 @@ public class TransactionalService {
         customerEntityService.save(cusCustomer);
 
         transactionalService2.saveSupports();
+    }
+
+    @org.springframework.transaction.annotation.Transactional(propagation = Propagation.NOT_SUPPORTED)
+    public void doSomething(){
+
+        for (int i = 0;i < 9999; i++){
+            CusCustomer cusCustomer = transactionalConstantService.findById(1L);
+        }
     }
 }

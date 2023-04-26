@@ -90,4 +90,11 @@ public class TransactionalController {
                 nonTransactionalService.saveN2Supports();
         }
 
+        @PostMapping("/ts15")
+        public void ts15(){
+                transactionalService.doSomething();
+        }
+
+
+
 }
