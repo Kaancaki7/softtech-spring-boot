@@ -51,4 +51,12 @@ public class TransactionalService2 {
         customerEntityService.save(cusCustomer);
 
     }
+
+    @Transactional(propagation = Propagation.NESTED)
+    public void saveNested() {
+
+        CusCustomer cusCustomer = TransactionalUtil.getDummyCusCustomer("ts16");
+
+        customerEntityService.save(cusCustomer);
+    }
 }
