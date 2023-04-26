@@ -100,6 +100,11 @@ public class TransactionalController {
                 transactionalService.saveNested();
         }
 
+        @PostMapping("/ts17")
+        public void ts17(){
+                nonTransactionalService.doSomething();
+        }
+
 
 
 }

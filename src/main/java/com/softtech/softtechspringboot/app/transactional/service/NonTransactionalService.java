@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 
 @Service
 @RequiredArgsConstructor
@@ -14,8 +15,8 @@ public class NonTransactionalService {
 
     private final CusCustomerEntityService customerEntityService;
     private TransactionalService transactionalService;
-
     private final TransactionalService2 transactionalService2;
+    private final NonTransactionalConstantService nonTransactionalConstantService;
     @Autowired
     public void setTransactionalService(@Lazy TransactionalService transactionalService) {
         this.transactionalService = transactionalService;
@@ -62,5 +63,12 @@ public class NonTransactionalService {
         customerEntityService.save(cusCustomer);
 
         transactionalService2.saveSupports();
+    }
+
+    public void doSomething(){
+
+        for (int i = 0;i < 9999; i++){
+            CusCustomer cusCustomer = nonTransactionalConstantService.findById(1L);
+        }
     }
 }
