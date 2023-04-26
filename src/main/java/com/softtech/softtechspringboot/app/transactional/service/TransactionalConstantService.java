@@ -42,4 +42,26 @@ public class TransactionalConstantService {
 
         return cusCustomer;
     }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public CusCustomer findByIdWithNewTransaction(Long id){
+
+        CusCustomer customer = map.get(id);
+        if (customer != null){
+            return customer;
+        }
+
+        Optional<CusCustomer> customerOptional = customerDao.findById(id);
+
+        CusCustomer cusCustomer;
+        if (customerOptional.isPresent()){
+            cusCustomer = customerOptional.get();
+        } else {
+            throw new RuntimeException("error!");
+        }
+
+        map.put(cusCustomer.getId(), cusCustomer);
+
+        return cusCustomer;
+    }
 }

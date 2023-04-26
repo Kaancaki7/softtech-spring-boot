@@ -105,6 +105,11 @@ public class TransactionalController {
                 nonTransactionalService.doSomething();
         }
 
+        @PostMapping("/ts18")
+        public void ts18(){
+                transactionalService.doSomethingWithNewTransaction();
+        }
+
 
 
 }

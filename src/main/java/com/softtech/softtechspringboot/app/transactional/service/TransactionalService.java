@@ -133,4 +133,12 @@ public class TransactionalService {
 
         transactionalService2.saveNested();
     }
+
+    @org.springframework.transaction.annotation.Transactional(propagation = Propagation.NOT_SUPPORTED)
+    public void doSomethingWithNewTransaction(){
+
+        for (int i = 0;i < 9999; i++){
+            CusCustomer cusCustomer = transactionalConstantService.findByIdWithNewTransaction(1L);
+        }
+    }
 }
