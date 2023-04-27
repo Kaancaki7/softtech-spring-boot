@@ -71,4 +71,13 @@ public class NonTransactionalService {
             CusCustomer cusCustomer = nonTransactionalConstantService.findById(1L);
         }
     }
+
+    public void saveNon2Never() {
+
+        CusCustomer cusCustomer = TransactionalUtil.getDummyCusCustomer("ts19");
+
+        customerEntityService.save(cusCustomer);
+
+        nonTransactionalConstantService.saveNever();
+    }
 }

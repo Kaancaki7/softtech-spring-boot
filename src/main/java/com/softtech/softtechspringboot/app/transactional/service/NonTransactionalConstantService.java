@@ -2,6 +2,7 @@ package com.softtech.softtechspringboot.app.transactional.service;
 
 import com.softtech.softtechspringboot.app.cus.dao.CusCustomerDao;
 import com.softtech.softtechspringboot.app.cus.entity.CusCustomer;
+import com.softtech.softtechspringboot.app.transactional.util.TransactionalUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -39,5 +40,14 @@ public class NonTransactionalConstantService {
         map.put(cusCustomer.getId(), cusCustomer);
 
         return cusCustomer;
+    }
+
+    @Transactional(propagation = Propagation.NEVER)
+    public void saveNever() {
+
+        CusCustomer cusCustomer = TransactionalUtil.getDummyCusCustomer("ts14");
+
+        customerDao.save(cusCustomer);
+
     }
 }

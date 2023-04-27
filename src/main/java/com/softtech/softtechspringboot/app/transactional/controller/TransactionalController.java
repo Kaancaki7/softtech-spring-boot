@@ -110,6 +110,9 @@ public class TransactionalController {
                 transactionalService.doSomethingWithNewTransaction();
         }
 
-
+        @PostMapping("/ts19")
+        public void ts19(){
+                nonTransactionalService.saveNon2Never();
+        }
 
 }
